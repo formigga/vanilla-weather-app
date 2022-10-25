@@ -48,10 +48,21 @@ function displayTemperature(response) {
   iconElement.setAttribute("alt", response.data.weather[0].description);
 }
 
-//weather api - open weather api
-let apiKey = "87471c6a89e6a023ff918939ca16d5ac";
-let city = "Paris";
-let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+//makes an ajax call and displays the city
+function search(city) {
+  let apiKey = "87471c6a89e6a023ff918939ca16d5ac";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+  axios.get(apiUrl).then(displayTemperature);
+}
 
-//getting live info using axios through the api
-axios.get(apiUrl).then(displayTemperature);
+function handleSubmit(event) {
+  event.preventDefault();
+  let cityInputElement = document.querySelector("#city-input");
+  search(cityInputElement.value);
+}
+
+search("New York");
+
+//linking the form to js so we can control it and make it work
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
